@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="UTF-8"/>
+        <title> Hw2 </title>
+        <link rel="stylesheet" type="text/css" href="css_hw.css">
+        <script defer src="css_hw.js"></script>
+    </head>
+    <body>
+        <section id="form_container">
+            <article id="container_body">
+                <form id="form">
+                    <div id="username_container" class="form_item_container">
+                        <input class="form_item" id="username" type="text" placeholder="Потребителско име" required autocomplete="off">
+                    </div>
+                    <div id="invalid_username" class="invalid_form_item_container">
+                        <input class="invalid_message" id="username_invalid_msg" type="text" value="Невалидно потребителско име." readonly="readonly">
+                    </div>
+                    <div id="password_container" class="form_item_container">
+                        <input class="form_item" id="password" type="password" placeholder="Парола" required>
+                    </div>
+                    <div id="invalid_password" class="invalid_form_item_container">
+                        <input class="invalid_message" id="password_invalid_msg" type="text" value="Паролата трябва да е над 8 символа." readonly="readonly">
+                    </div>
+                    <div id="phone_container" class="form_item_container">
+                        <input class="form_item" id="phone" type="text" placeholder="Телефон" required autocomplete="off">
+                    </div>
+                    <div id="invalid_phone" class="invalid_form_item_container">
+                        <input class="invalid_message" id="phone_invalid_msg" type="text" value="Невалиден телефон." readonly="readonly">
+                    </div>
+                    <div id="email_container" class="form_item_container">
+                        <input class="form_item" id="email" type="text" placeholder="Имейл" required autocomplete="off">
+                    </div>
+                    <div id="invalid_email" class="invalid_form_item_container">
+                        <input class="invalid_message" id="email_invalid_msg" type="text" value="Невалиден имейл адрес." readonly="readonly">
+                    </div>
+                    <div class="form_item_container">
+                        <select class="form_item" name="user_type" id="user_type">
+                            <option value="owner">Собственик</option>
+                            <option value="renter">Наемател</option>
+                        </select>
+                    </div>
+                    <div id="no_container" class="form_item_container">
+                        <input class="form_item" id="app_num" type="text" placeholder="Номер на апартамента" required autocomplete="off">
+                    </div>
+                    <div id="invalid_no" class="invalid_form_item_container">
+                        <input class="invalid_message" id="no_invalid_msg" type="text" value="Невалиден номер." readonly="readonly">
+                    </div>
+                    <div class="button_container">
+                        <button class="form_item" id="reg-btn">Регистрирай ме!</button>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </body>
+</html>
