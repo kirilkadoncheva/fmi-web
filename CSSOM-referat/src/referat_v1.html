@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+    <head lang="bg">
+        <meta charset="UTF-8"/>
+        <title> CSSOM </title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="javascript/javascript.js"></script>
+    </head>
+    <body>
+        <header id="head">
+            <h1>CSS Object Model (CSSOM)</h1>
+        </header>
+        <button class="open" onclick="openNavigation()">☰ Съдържание</button> 
+
+        <nav class="side_navigation" id="side_navigation">
+            <button class="close" onclick="closeNavigation()">X</button> 
+            <a id="nav" href="#cssom_definition">Какво е CSSOM?</a>
+            <a id="nav" href="#dom_cssom">DOM & CSSOM</a>
+            <a id="nav" href="#cssom_interfaces">Интерфейси на CSSOM</a>
+            <a id="nav" href="#style">Свойството element.style</a>
+            <a id="nav" href="#get_computed_style">Методът window.getComputedStyle()</a>
+            <a id="nav" href="#css_style_declaration">CSSStyleDeclaration интерфейс</a>
+            <a id="nav" href="#css_style_sheet">CSSStyleSheet интерфейс</a>
+            <a id="nav" href="#manipulate_css_style_sheet">Манипулиране на CSSStyleSheet обект</a>
+            <a id="nav" href="#css_rule">CSSRule интерфейс</a>
+            <a id="nav" href="#houdini">CSS Typed OM & the Houdini Project</a>
+            <a id="nav" href="#resources_container">Източници</a>
+
+        </nav>
+
+        <div id="content">
+            <section id="introduction">
+                <header>Въведение</header>
+                <article>
+                  <p>Всеки, който е писал код на JavaScript, със сигурност е запознат с концепцията за DOM (Document Object Model) и го е използвал, за да манипулира HTML структурата на Web документи. Всеки Web документ има множество от отворени интерфейси (API-та), посредством които е възможно динамично редактиране на елементите в Web документа. </p>
+                  <p>Има обаче още едно интересно множество от интерфейси, наречено CSSOM, с което ще Ви запознае този документ.</p>
+                </article>
+            </section>
+            <section id="cssom_definition">
+                <header>Какво е CSSOM?</header>
+                <article>
+                  <p>CSSOM, както вече споменах, представлява множество от интерфейси. То работи на същия принцип като DOM, но вместо за HTML, CSSOM се използва за динамично манипулиране на CSS стиловете на Web документи използвайки JavaScript код. </p>
+                  <p>CSSOM, както и DOM, има дървовидна структура. На практика CSSOM може да се оприличи на map (структурата от данни map), в който на всеки CSS селектор са асоциирани съответните стилове и свойства, които са му зададени в CSS спецификацията. И точно този map използват браузърите, за да рендерират стиловете на всяка уеб страница. Но как точно се случва това рендериране?</p>
+                </article>
+            </section>
+            <section id="dom_cssom">
+                <header>Как браузърите използват DOM и CSSOM? (накратко)</header>
+                <article>
+                    <p>Браузърите използват както DOM, така и CSSOM, за да интерпретират и рендерират уеб страници. И при двата модела цялата информация се конвертира от байтове в дигитални карти (map), които се използват за визуализацията на всеки елемент от уеб документа. Процесът, по който това се случва, е следният:</p>
+                    <ol>
+                        <li>Браузърът изтегля HTML спецификацията за дадена уеб страница.</li>
+                        <li>Докато обработва HTML документа, браузърът намира линк към елемента, рефериращ външна (в отделен файл) CSS спецификация.</li>
+                        <li>CSS документът се парсва към map посредством спецификацията на CSSOM.</li>
+                        <li>Полученият код се прилага към елементите в DOM модела.</li>
+                    </ol>
+                    <div class="left">
+                        <img src="img/158_01.jpg"/>
+                        <p class="image_text"> <a target="_blank" href="https://www.hongkiat.com/blog/css-object-model-cssom/">Фигура 1.</a> - Визуален пример на DOM спецификация</p>
+                    </div>
+                    <div class="right">
+                        <img src="img/158_02.jpg"/>
+                        <p class="image_text"><a target="_blank" href="https://www.hongkiat.com/blog/css-object-model-cssom/">Фигура 2.</a> - Визуален пример на CSSOM спецификация</p>
+                    </div>
+                    <p class="comment">Свойствата на изображенията, които са в сив цвят, са наследени от елемент родител.</p>
+                    <p>HTML и CSS низовете се конвертират в така наречените токени, които от уеб браузъра се интерпретират като върхове в дърво и това дърво дефинира как трябва да се конструира дадената уеб страница.</p>
+                    <p>Въпреки че си приличат, DOM и CSSOM са два отделни дата модели, които се парсват по отделно. Въпреки това обаче, целта им е една и съща - да дадат структура на уеб страница, по която браузъра да рендерира тази страница.</p>
+                </article>
+            </section>
+            <section id="cssom_interfaces">
+                <header>Интерфейси на CSSOM</header>
+                <article>
+                    <p>CSSOM позволява на потребителите си да прочетат и редактират CSS стилове динамично чрез JavaScript код. На практика CSSOM е JS API (JavaScript програмен интерфейс). </p>
+                    <p>Ето пълен списък на предлаганите интерфейси от CSSOM:</p>
+                    <ul>
+                        <li>AnimationEvent</li>
+                        <li>CaretPosition</li>
+                        <li>CSS</li>
+                        <li>CSSCharsetRule</li>
+                        <li>CSSConditionRule</li>
+                        <li>CSSCounterStyleRule</li>
+                        <li>CSSFontFaceRule</li>
+                        <li>CSSFontFeatureValuesMap</li>
+                        <li>CSSFontFeatureValuesRule</li>
+                        <li>CSSGroupingRule</li>
+                        <li>CSSImportRule</li>
+                        <li>CSSKeyframeRule</li>
+                        <li>CSSKeyframesRule</li>
+                        <li>CSSMarginRule</li>
+                        <li>CSSMediaRule</li>
+                        <li>CSSNamespaceRule</li>
+                        <li>CSSPageRule</li>
+                        <li>CSSRule</li>
+                        <li>CSSRuleList</li>
+                        <li>CSSStyleDeclaration</li>
+                        <li>CSSStyleSheet</li>
+                        <li>CSSStyleRule</li>
+                        <li>CSSSupportsRule</li>
+                        <li>CSSVariablesMap</li>
+                        <li>CSSViewportRule</li>
+                        <li>ElementCSSInlineStyle</li>
+                        <li>FontFace</li>
+                        <li>FontFaceSet</li>
+                        <li>FontFaceSetLoadEvent</li>
+                        <li>GeometryUtils</li>
+                        <li>GetStyleUtils</li>
+                        <li>LinkStyle</li>
+                        <li>MediaList</li>
+                        <li>MediaQueryList</li>
+                        <li>MediaQueryListEvent</li>
+                        <li>Screen</li>
+                        <li>StyleSheet</li>
+                        <li>StyleSheetList</li>
+                        <li>TransitionEvent</li>
+                    </ul>
+                    <p>Както се вижда, списъкът е доста дълъг и затова няма да разглеждаме всеки интерфейс. Вместо това ще се спрем на най-често използваните функционалности, предлагани от CSSOM.</p>
+                    <p class="comment">За по-подробен преглед на всички интерфейси, може да погледнете <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model">официалната документация на CSSOM</a>. </p>
+                    <p>Ще започнем с функционалности, които вече са познати на повечето front-end разработчици. Те се приемат като част от DOM, но всъщност са част от по-голямата група интерфейси, които CSSOM предлага.</p>
+                </article>
+            </section>
+            <section id="style">
+                <header>Вградени (inline) стилове чрез element.style</header>
+                <article>
+                    <p>Най-базовия начин за четене или редактиране на CSS свойствата на всеки HTML елемент чрез JavaScript код е през style обекта. Форматът за четене и редактиране на дадено свойство на елемент е един и същ - <code>element.style.propertyName</code>. </p>
+                    <p>Например ако искаме да променим цвета на фона на даден уеб документ, можем да напишем:</p>
+                    <code>document.body.style.background = 'lightblue';</code>
+                    <p>Ако името на свойството, което искаме да променим, съдържа “-”, името се конвертира към camel case. Например <code>background-color</code> се записва като <code>backgroundColor</code>.</p>
+                    <p>Манипулирането на CSS свойства на елементи чрез <code>element.style</code> очевидно е доста лесно, но има един голям недостатък - <code>style</code> свойството на елементите се прилага само за вградени (inline) стилове. Тоест, ако се опитаме да прочетем CSS свойство на елемент, което е зададено във външен .css файл, използвайки <code>element.style</code>, като резултат ще получим <code>undefined</code>.  </p>
+                    <p>Нека разгледаме още един по-малко ограничен начин за достъп до CSS стиловете на елемент.</p>
+                </article>
+            </section>
+            <section id="get_computed_style">
+                <header>Методът window.getComputedStyle()</header>
+                <article>
+                    <p>Изчислената CSS стойност за всяко CSS свойство на даден елемент от уеб страница може да бъде прочетена използвайки метода <code>window.getComputedStyle()</code>.</p>
+                    <p>Има 3 различни синтаксиса за прочитане на CSS свойства на елемент чрез <code>window.getComputedStyle()</code>:</p>
+                    <code class="multiline">
+window.getComputedStyle(el).backgroundColor;
+
+window.getComputedStyle(el)['background-color'];
+
+window.getComputedStyle(el).getPropertyValue('background-color');
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 1.</a> Различни начини за прочитане на background-color на елемент. </p>
+                    <p>Примерен резултат от горните 3 команди е следният: <code>"rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box"</code>.</p>
+                    <p>Както се вижда от примера, методът <code>window.getComputedStyle()</code> ни дава доста допълнителна информация, за разлика от използването на <code>element.style</code>. Този метод всъщност ни дава информация не само за CSS свойствата, зададени експлицитно в CSS спецификацията на даден елемент, но и за всички CSS свойства, които са приложени към този елемент (включително стойностите по подразбиране).
+                        Например ако имаме даден <code>&ltdiv&gt</code> елемент, за който не сме задали <code>height</code> и <code>width</code>, <code>window.getComputedStyle(&ltdiv_element&gt).width</code> ще ни върне реалната ширина на този елемент.</p>
+                    <p>Една от много удобните функционалности на метода <code>window.getComputedStyle()</code> е, че той може да бъде използван и за прочитане на стила на <a href="https://www.w3schools.com/css/css_pseudo_elements.asp" target="_blank">псевдо елементи</a> в CSS. Например имаме следната  CSS декларация:
+                    </p>
+                    <code class="multiline">
+.box::before {
+    content: 'Example';
+    display: block;
+    width: 50px;
+  }                          
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 2.</a> Примерен CSS код за псевдо елемент ::before </p>
+                    <p>Можем да прочетем CSS свойствата на псевдо елемента <code>.box::before</code> по следния начин:</p>
+                    <code class="multiline">
+let box = document.querySelector('.box');
+window.getComputedStyle(box, '::before').width;
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 3.</a> Пример за използване на window.getComputedStyle() </p>
+                    <p class="comment">Резултат: 50px</p>
+                </article>
+            </section>
+            <section id="css_style_declaration">
+                <header>CSSStyleDeclaration интерфейс (API)</header>
+                <article>
+                    <p>Досега разбрахме 2 начина, по които можем да прочитаме CSS свойствата на елемент - чрез <code>style</code> обекта и чрез метода <code>getComputedStyle()</code>. Въпреки че са различни, и двата подхода използват <code>CSSStyleDeclaration</code> интерфейса. И по-конкретно, долните 2 реда ще върнат един и същи резултат - <code>CSSStyleDeclaration</code> обект, репрезентиращ CSS свойствата на <code>body</code> елемента от уеб документа, който разглеждаме:</p>
+                    <code class="multiline">
+document.body.style;
+window.getComputedStyle(document.body);
+                    </code>
+                    <div class="left">
+                        <img src="img/158_03.png"/>
+                        <p class="image_text">Фигура 3. Примерен резултат от изпълнението на горните 2 реда.</p>
+                    </div>
+                    <p>Стойностите, върнати от <code>getComputedStyle()</code> са Read-Only (не можем да ги редактираме), за разлика от стойностите, върнати от <code>style</code> обекта. Как тогава да редактираме CSS свойствата, асоциирани със <code>CSSStyleDeclaration</code> обекта, който сме получили? Това се прави с методите <code>setProperty()</code>, <code>getPropertyValue()</code>, <code>removeProperty()</code>, and <code>item()</code>.</p>
+                    <ul>
+                        <li><code>setProperty()</code> методът се използва за задаване на стойност на CSS свойство на елемент. Методът приема 2 аргумента от тип низ - първият е името на свойството, което искаме да зададем, и вторият е стойността, която искаме да зададен на това свойство.</li>
+                        <li><code>getPropertyValue()</code> методът се използва за прочитане на стойност. Приема само 1 аргумент низ - името на свойството, чиято стойност искаме да получим.</li>
+                        <li><code>item()</code> методът също се използва за прочитане на стойност. Приема 1 аргумент - положително число, което представлява индекса (поредния номер) на свойството, чиято стойност искаме да прочетем.</li>
+                        <li><code>removeProperty()</code> методът се използва за премахване на зададена стойност CSS свойство на елемент.</li>
+                    </ul>
+                    <p>Примери:</p>
+                    <code class="multiline">
+let box = document.querySelector('.box');
+
+box.style.setProperty('color', 'orange');
+box.style.setProperty('font-family', 'Georgia, serif');
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 4.</a> Задаване на стойности за color и font-family на елемент от клас "box". </p>
+                    <code class="multiline">
+op.innerHTML = box.style.getPropertyValue('color');
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 5.</a> Прочитане на стойността на color за елемент от клас "box". </p>
+                    <code class="multiline">
+document.body.style.removeProperty('font-family');
+document.body.style.item(0);
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 6.</a> Премахване на зададената стойност за font-family на елемент от клас "box". </p>
+                    <p class="important">Не трябва да забравяме обаче, че style обектът може да манипулира само вградени (inline) стилове на елементите.</p>
+                </article>
+            </section>
+            <section id="css_style_sheet">
+                <header>CSSStyleSheet интерфейс</header>
+                <article>
+                    <p>Досегашните методи за манипулация на CSS свойствата, които разгледахме, не са особено удобни за ползване - манипулирането на вградените стилове е много ограничаващо, а изчислените стилове са твърде специфични и само информативни (не могат да се редактират).
+                    </p>
+                    <p><code>CSSStyleSheet</code> интерфейсът ни дава трети начин за манипулация на CSS свойствата на елемент. Този начин е много по-използваем от досега разгледаните - позволява четене и редактиране не само на вградени стилове, но и на стилове, зададени във външен .css файл.</p>
+                    <p>Как да достъпим този <code>CSSStyleSheet</code> интерфейс? - чрез <code>styleSheets</code> свойството на уеб документа <code>document.styleSheets</code>. То ни връща масив от <code>StyleSheet</code> (<code>CSSStyleSheet</code> интерфейсът наследява <code>StyleSheet</code> интерфейса) обекти, които представляват всички стилистични файлове на документа. Тоест, ако сме задали CSS свойствата на обекта във външен CSS файл - style.css, ще можем да го достъпим чрез <code>document.styleSheets[0]</code>.</p>
+                    <div id="fig_4" class="right">
+                        <img src="img/158_04.png"/>
+                        <p class="image_text">Фигура 4. Пример как изглежда CSSStyleSheet обект.</p>
+                    </div>
+                    <p>Както се вижда, конкретните CSS свойства за всеки селектор са достъпни в <code>CSSRuleList</code> обект и за всеки селектор има по един <code>CSSRule</code> обект.</p>
+                    <div class="left">
+                        <img src="img/158_05.png"/>
+                        <p class="image_text">Фигура 5. Пример как изглежда CSSRule обект.</p>
+                    </div>
+                    <p>Тъй като говорим за CSS стилизиране на уеб страница, ще разгледаме директно <code>CSSStyleSheet</code> интерфейса, без да се спираме на родителя му <code>StyleSheet</code>.</p>
+                </article>
+            </section>
+            <section id="manipulate_css_style_sheet">
+                <header>Манипулиране на CSSStyleSheet обект</header>
+                <article>
+                    <p><code>CSSStyleSheet</code> наследява доста свойства (член-данни) от родилетя си <code>StyleSheet</code>:</p>
+                    <ul>
+                        <li>StyleSheet.disabled</li>
+                        <li>StyleSheet.href (Read-Only)</li>
+                        <li>StyleSheet.media (Read-Only)</li>
+                        <li>StyleSheet.ownerNode (Read-Only)</li>
+                        <li>StyleSheet.parentStyleSheet (Read-Only)</li>
+                        <li>StyleSheet.title (Read-Only)</li>
+                        <li>StyleSheet.type (Read-Only)</li>
+                    </ul>
+                    <p>Имената на повечето от тях подсказват каква информация съдържат. Няма да се спираме на тях.Данните и методите, които ни интересуват, са специфични за <code>CSSStyleSheet</code> интерфейса.</p>
+                    <p>Нека започнем с достъпването на CSS свойствата. Както вече споменах, те са репрезентирани чрез <code>CSSRule</code> обекти. Списък от всички <code>CSSRule</code> обекти в един <code>CSSStyleSheet</code> обект можем да получим по следния начин:</p>
+                    <code class="multiline">
+let styleSheet = document.styleSheets[0];
+let myRules = styleSheet.cssRules;
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 7.</a> Прочитане на всички CSS правила в първия stylesheet на даден уеб документ. </p>
+                    <p>Всеки <code>CSSRule</code> в този списък може да бъде достъпен по индекс - <code>myRules[0]</code> или <code>myRules.item(0)</code>.</p>
+                    <p>Освен да разглеждаме какви CSS правила има дефинирани, можем да добавяме нови правила и да премахваме вече съществуващи, използвайки следните 2 метода на <code>StyleSheet</code> интерфейса:</p>
+                    <ul>
+                        <li><code>deleteRule()</code> - премахва <code>CSSRule</code> от <code>CSSStyleSheet</code> обект. Приема един параметър - индекса на правилото, което искаме да премахнем. Въща undefined.</li>
+                        <li><code>insertRule()</code> - добавя обект CSSRule към <code>CSSRuleList</code> списъка в <code>CSSStyleSheet</code> обект. Методът приема 2 параметъра. Първият параметър е низ и е задължителен - това е CSS правилото, което искаме да добавим. Вторият параметър не е задължителен - с него можем да специфицираме на кой индекс искаме да вмъкнем новото CSS правило. По подразбиране стойността му е 0, тоест правилото се добавя в началото на <code>CSSRuleList</code> списъка. Ако подадем число, по-голямо от дължината на CSSRuleList обекта, ще се хвърли грешка (error).</li>
+                    </ul>
+                    <p>Например нека имаме следното правило:</p>
+                    <code class="multiline">
+article {
+    line-height: 1.5;
+    font-size: 1.5em;
+  }                          
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 8.</a> Примерно CSS правило. </p>
+                    <p>Можем да го добавим към <code>CSSStyleSheet</code> обект на последно място в списъка по следния начин:</p>
+                    <code class="multiline">
+document.styleSheets[0].insertRule('article { line-height: 1.5; font-size: 1.5em; }', myStylesheet.cssRules.length);
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/">Код 9.</a> Добавяне на горното CSS правило към stylesheet на уеб документ. </p>
+                </article>
+            </section>
+            <section id="css_rule">
+                <header>CSSRule интерфейс</header>
+                <article>
+                    <p>Може би забелязахте, че на <a href="#fig_4">Фиг. 4.</a>, обектите в <code>CSSRuleList</code> обекта бяха от тип <code>CSSStyleRule</code>, а през цялото време говорим за <code>CSSRule</code>. Това е така, защото <code>CSSStyleRule</code> наследява <code>CSSRule</code> интерфейса.</p>
+                    <p><code>CSSRule</code> е общ интерфейс, кохто репрезентира всички CSS свойства (правила) в даден <code>StyleSheet</code> обект. Тези правила обаче, могат да бъдат няколко различни типа (един от които вече видяхме - <code>CSSStyleRule</code>):</p>
+                    <ul>
+                        <li>CSSStyleRule</li>
+                        <li>CSSImportRule</li>
+                        <li>CSSMediaRule</li>
+                        <li>CSSFontFaceRule</li>
+                        <li>CSSPageRule</li>
+                        <li>CSSNamespaceRule</li>
+                        <li>CSSKeyframesRule</li>
+                        <li>CSSKeyframeRule</li>
+                        <li>CSSCounterStyleRule</li>
+                        <li>CSSDocumentRule</li>
+                        <li>CSSSupportsRule</li>
+                        <li>CSSFontFeatureValuesRule</li>
+                        <li>CSSViewportRule</li>
+                    </ul>
+                    <p>Тези типове са интерфейси самi по себе си и наследяват <code>CSSRule</code> интерфейса. От него наследяват няколко общи свойства (член-данни):</p>
+                    <ul>
+                        <li><code>CSSRule.cssText</code> - съдържа текстовата репрезентация на дадено CSS правило. Например <code>"h1,h2 { font-size: 16pt }"</code>. За да достъпим или прочетем части от това правило, например <code>font-size</code>, трябва да използваме методите предоставени от по-специализирания интерфейс за конкретния тип на CSS правилото</li>
+                        <li><code>CSSRule.parentRule</code> - това е Read-Only обект от тип <code>CSSRule</code>, който връща CSS правилото, в което текущото правило се съдържа (връща бащиното правило от дървовидната структура на CSSOM). Ако текущото правило е на ниво root, тогава <code>CSSRule.parentRule</code> ще бъде <code>null</code>. </li>
+                        <li><code>CSSRule.parentStyleSheet</code> - това е Read-Only обект от тип <code>StyleSheet</code>, който представлява конкретния stylesheet, от който текущото правило е част</li>
+                        <li><code>CSSRule.type</code> - това е Read-Only обект, репрезентиращ какъв тип е текущото правило. Например <code>CSSStyleRule.type = STYLE_RULE</code>. STYLE_RULE е константа, която има стойност 1. Останалите константи включват IMPORT_RULE (3), MEDIA_RULE (4), KEYFRAMES_RULE (7)</li>
+                    </ul>
+                    <p>Ще разгледаме по-подробно <code>CSSStyleRule</code> интерфейса. Подробна информация за останалите интерфейси може да намерите в <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSRule"  target="_blank">документацията на CSSOM</a>.
+                    </p>
+                    <p>Всяка имплементация на <code>CSSStyleRule</code> интерфейса представлява едно CSS правило за добавяне на стилове (селектор + стилове). Освен свойствата (член данните), които наследява от <code>CSSRule</code>, <code>CSSStyleRule</code> има и свои специфични такива:</p>
+                    <ul>
+                        <li><code>CSSStyleRule.selectorText</code> - връща текстова репрезентация на селектора на даденото правило. Например <code>“h1,h2”</code>.</li>
+                        <li><code>CSSStyleRule.style</code> - връща Read-Only обект от тип <code>CSSStyleDeclaration</code></li>
+                        <li><code>CSSStyleRule.styleMap</code> - връща Read-Only обект от тип <code>StylePropertyMap</code>, който предоставя реален достъп до зададените свойства и техните стойности в текущото <code>CSSStyleRule</code> правило (има методи, позволяващи ни да манипулираме зададените CSS стойности). Тази структура от данни е map, в който ключове са имената на свойствата (напр. <code>width</code>, <code>length</code>), а стойностите за зададените стойности за тези свойства. <code>StylePropertyMap</code> може да се приеме като алтернатива на <code>CSSStyleDeclaration</code> обекта.
+                        </li>
+                    </ul>
+                </article>
+            </section>
+            <section id="houdini">
+                <header>CSS Typed OM и the Houdini Project</header>
+                <article>
+                    <p>Въпреки всички функционалности, които предлага, бъдещето на CSSOM не е много сигурно. Това е така заради нещо, наречено CSS Typed OM, което е част от проекта the Houdini Project.</p>
+                    <p>CSS Typed OM е разширение на CSSOM (който разглеждахме досега). CSS Typed OM представя CSS обекти като типизирани JavaScript обекти (вместо низове, както е при CSSOM). Това ни спестява ръчно конвертиране на низове в използваеми обекти с реален смисъл за нас. </p>
+                    <p>При CSS Typed OM всички CSS стойности са представители на нов базов клас - <code>CSSStyleValue</code>, който има много наследници, представящи по-специфични типове CSS стойности:</p>
+                    <ul>
+                        <li>CSSKeywordValue</li>
+                        <li>CSSPositionValue</li>
+                        <li>CSSImageValue</li>
+                        <li>CSSUnitValue</li>
+                        <li>CSSMathValue</li>
+                        <li>CSSTransformValue</li>
+                    </ul>
+                    <p>Има 2 начина за манипулиране на Typed OМ стоности - чрез <code>attributeStyleMap</code> (за писане и четене на вградени (inline) стойности) и <code>computedStyleMap</code> (за четене на пълните Typed OM стилове на обект). Например:
+                    </p>
+                    <code>
+myElement.attributeStyleMap.set('font-size', CSS.em(2));
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 10.</a> Задаване на стойност за font-size на елемент myElement. </p>
+                    <code>
+myElement.attributeStyleMap.get('font-size'); 
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 11.</a> Прочитане на зададена стойност за font-size на елемент myElement. </p>
+                    <code id="comment">CSSUnitValue { value: 2, unit: 'em' }</code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 12.</a> Резултат от изпълнение горния ред. </p>
+                    <code class="multiline">
+const cs = $('.foo').computedStyleMap();
+cs.get('vertical-align');
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 13.</a> Прочитане на зададена стойност за vertical-align на елемент от клас foo.</p>
+                    <code id="comment" class="multiline">
+ CSSKeywordValue {
+  value: 'baseline',
+ }
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 14.</a> Резултат от изпълнение горния ред. </p>
+                    <code class="multiline">
+cs.get('background-position').x;
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 15.</a> Прочитане на зададена стойност за background-position на елемент от клас foo. </p>
+                    <code id="comment" class="multiline">
+ CSSUnitValue {
+   value: 50,
+   unit: 'percent',
+ }
+                    </code>
+                    <p class="code_text"><a target="_blank" href="https://houdini.glitch.me/typed-om">Код 16.</a> Резултат от изпълнение горния ред. </p>
+                    <p>The Houdini Project представлява колекция от интерфейси (APIs) от ниско ниво, които позволяват на разработчиците да “разширяват” CSS с нови функционалности, използвайки JavaScript. И не само това, но им дава и възможност да се “закачат” в реалния процес по рендериране на браузъра и да му “кажат” как CSS правилата да бъдат приложени в този процес.
+                    </p>
+                    <p>Спецификацията на Houdini се състои от 2 групи от интерфейси - от високо и от ниско ниво.
+                    </p>
+                    <p>Интерфейсите от високо ниво са тясно свързани с процеса по рендериране на браузъра (style → layout → paint → composite) и включват:</p>
+                    <ul>
+                        <li>Paint API - позволява достъп до онази стъпка от процеса по рендериране, в която се определят визуалните свойства като color, background, border.</li>
+                        <li>Layout API - позволява достъп до онази стъпка от процеса по рендериране, в която се определят размерите, позицията и подравняването на елементите.</li>
+                        <li>Animation API - позволява достъп до онази стъпка от процеса по рендериране, в която слоеве се рисуват на екрана и се анимират</li>
+                    </ul>
+                    <p>Интерфейсите от ниско ниво са основа, на която стъпват интерфейсите от високо ниво:</p>
+                    <ul>
+                        <li>Typed Object Model API</li>
+                        <li>Custom Properties & Values API</li>
+                        <li>Font Metrics API</li>
+                        <li>Worklets</li>
+                    </ul>
+                    <p>The Houdini Project предлага много атрактивни възможности, но можем ли реално да се възползваме от него? В кои браузъри се поддържа?</p>
+                    <div class="left">
+                        <img src="img/158_06.png"/>
+                        <p class="image_text"><a target="_blank" href="https://ishoudinireadyyet.com/">Фигура 6.</a> Кои функции на Houdini в кои браузъри се поддържат.</p>
+                    </div>
+                    <p class="comment">Актуална информация относно развитието на The Houdini Project може да намерите <a href="https://ishoudinireadyyet.com/" target="_blank">тук</a>.</p>
+                </article>
+            </section>
+            <section id="conclusion">
+                <header>Заключение</header>
+                <article>
+                    <p>Въпреки че манипулирането на CSS стилове чрез JavaScript код със сигурност е необичайно - в много проекти няма нужда да се прави, базовите знания за CSSOM са много полезни. Още повече, проекти като Houdini, които са базирани на CSSOM, дават на front-end разработчиците все повече свобода в използването на CSS.
+                    </p>
+                    <p>Целта на този документ е по-скоро да даде базови знания за това какво е CSSOM, какво можем да правим с него и да пробуди интерес към CSSOM като цяло. Остава в ръцете на читателя да проучи по-подробно онези от засегнатите теми, които представляват интерес за него. </p>
+                </article>
+            </section>
+        </div>
+        <footer id="resources_container">
+                <header>Източници:</header>
+                    <a href="https://css-tricks.com/an-introduction-and-guide-to-the-css-object-model-cssom/" target="_blank"><p> [1] An Introduction and Guide to the CSS Object Model (CSSOM) - css-tricks.com, публикуван на 10.12.2018г.</p></a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model" target="_blank"><p>[2] CSS Object Model (CSSOM) MDN Documentation - developer.mozilla.org, последно редактиран на 04.02.2021г.</p></a>
+                    <a href="https://www.hongkiat.com/blog/css-object-model-cssom/" target="_blank"><p>[3] The Beginners Guide to CSS Object Model (CSSOM) - www.hongkiat.com, последно редактиран на 09.02.2021г.</p></a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/Houdini" target="_blank"><p> [4] CSS Houdini MDN Documentation - developer.mozilla.org, последно редактиран на 19.02.2021г.</p></a>
+                    <a href="https://houdini.glitch.me/typed-om" target="_blank"><p>[5] Typed OM - houdini.glitch.me, последно посетен на 14.04.2021г.</p></a>
+                    <a href="https://www.smashingmagazine.com/2020/03/practical-overview-css-houdini/ " target="_blank"><p>[6] A Practical Overview of CSS Houdini - www.smashingmagazine.com, публикуван на 19.03.2020г.</p></a>
+                    <a href="https://ishoudinireadyyet.com/" target="_blank"><p>[7] Is Houdini Ready Yet? - ishoudinireadyyet.com, последно редактиран на 26.10.2020г.</p></a>
+        </footer>
+
+    </body>
+</html>
