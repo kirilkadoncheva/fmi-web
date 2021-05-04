@@ -4,6 +4,10 @@ require_once("db.php");
 
 function addProduct($productId, $quantity) {
 
+    if($quantity < 0) {
+        displayError("Product quantity you want to add is < 0!");
+        return false;
+    } 
     try {
 
         $db = new DB();
@@ -16,21 +20,30 @@ function addProduct($productId, $quantity) {
         $stmt->execute();
         $connection->commit();
 
+        return true;
+
     } catch (PDOException $e) {
         $connection->rollBack();
-        echo $e->getMessage();
+        displayError($e->getMessage());
+        return false;
     }
 }
 
 if(isset($_POST["productId"]) && isset($_POST["quantity"])) {
     $productId = $_POST["productId"];
     $quantity = $_POST["quantity"];
-    if($quantity > 0) {
-        addProduct($productId, $quantity);
+
+    if(addProduct($productId, $quantity)) {
+        header("Location: index.php");
     }
     
 }
 
-header("Location: index.php");
-exit;
+function displayError($errorMessage) {
+    echo $errorMessage;
+
+    echo "<form method=\"POST\" action=\"index.php\"> <input value=\"Go Back\" type=\"submit\"/> </form>";
+}
+
+
 ?>
