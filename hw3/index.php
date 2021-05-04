@@ -50,23 +50,23 @@
 
         <h3>Add new product:</h3>
         <form action="addProduct.php" method="post">
-            <input type="text" placeholder="ID" name="productId" />
+            <input type="number" placeholder="ID" name="productId" />
             <input type="text" placeholder="Name" name="name" />
-            <input type="text" placeholder="Quantity" name="quantity" />
+            <input type="number" placeholder="Quantity" name="quantity" />
             <input type="submit" />
         </form>
 
         <h3>Add product:</h3>
         <form action="changeProductQuantity.php" method="post">
-            <input type="text" placeholder="ID" name="productId" />
-            <input type="text" placeholder="Quantity" name="quantity" />
+            <input type="number" placeholder="ID" name="productId" />
+            <input type="number" placeholder="Quantity" name="quantity" />
             <input type="submit" />
         </form>
 
         <h3>Buy product:</h3>
         <form action="buyProduct.php" method="post">
-            <input type="text" placeholder="ID" name="productId" />
-            <input type="text" placeholder="Quantity" name="quantity" />
+            <input type="number" placeholder="ID" name="productId" />
+            <input type="number" placeholder="Quantity" name="quantity" />
             <input type="submit" />
         </form>
     </body>
