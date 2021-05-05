@@ -12,11 +12,18 @@ function getProductQuantity($productId) {
         $stmt = $connection->prepare($sql);
         $stmt->execute();
 
+        $row = null;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($row == false) {
+            displayError("There is no product with id: " . $productId . "!");
+            return null;
+        }
         return $row["QUANTITY"];    
         }
     catch (PDOException $e) {
         echo $e->getMessage();
+        displayError("Error fetching product quantity!");
         return null;
     }
 } 
@@ -24,6 +31,7 @@ function getProductQuantity($productId) {
 function buyProduct($productId, $quantity) {
     $currentQuantity = getProductQuantity($productId);
 
+    if(is_null($currentQuantity)) return false;
     if($currentQuantity < $quantity || $quantity < 0) {
         displayError("There is not enough stock of product with id: " . $productId . "!");
         return false;
